@@ -66,7 +66,7 @@ const Register = ({ inputText }) => {
         }}>
             <Input
                 pHolder='Usuario'
-                text={inputText.userName}
+                text='Usuario'
                 type='text'
                 id='username'
                 valid={validUser}
@@ -76,7 +76,7 @@ const Register = ({ inputText }) => {
             />
             <Input
                 pHolder='Contraseña'
-                text={inputText.pwd}
+                text='Contraseña'
                 type='password'
                 id='password'
                 valid={validPwd}

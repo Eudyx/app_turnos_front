@@ -11,6 +11,7 @@ import Clients from './components/Clients';
 import Admin from './components/Admin';
 import TicketListController from './components/TicketListController';
 import LayOut from './layout/LayOut';
+import RequireAuth from './components/RequireAuth';
 
 const socket = io("http://localhost:3000/");
 
@@ -32,7 +33,10 @@ function App() {
           <Route path='shiftTable' element={<ShiftTable socket={socket} />} />
           <Route path='register' element={<Register inputText={inputText} />} />
           <Route path='login' element={<Login inputText={inputText} />} />
-          <Route path='ticket-list-controller' element={<TicketListController socket={socket} />} />
+
+          <Route element={<RequireAuth />}>
+            <Route path='ticket-list-controller' element={<TicketListController socket={socket} />} />
+          </Route>
         </Route>
       </Routes>
     </main>

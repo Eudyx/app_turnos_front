@@ -57,11 +57,6 @@ const Login = ({ inputText }) => {
         userLogged();
     }, [])
 
-    useEffect(() => {
-        // redirectin the 
-        Object.keys(auth).length !== 0 && navigate('/ticket-list-controller')
-    }, [auth])
-
   return (
     <div className='form_container'>
         <form onSubmit={(e) => {
@@ -71,7 +66,7 @@ const Login = ({ inputText }) => {
         { errMsg?.length ? <h4>{errMsg}</h4> : null }
             <Input
                 pHolder='Usuario'
-                text={inputText.userName}
+                text='Usuario'
                 type='text'
                 id='username'
                 content={user}
@@ -80,7 +75,7 @@ const Login = ({ inputText }) => {
 
             <Input
                 pHolder='Contraseña'
-                text={inputText.pwd}
+                text='Contraseña'
                 type='password'
                 id='password'
                 content={pwd}

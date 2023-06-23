@@ -7,11 +7,10 @@ const LogOut = () => {
 
     const { setAuth } = useUser();
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const handleLogout = () => {
         window.localStorage.removeItem('user');
         setAuth({});
-        navigate('/login');
     }
 
   return (
