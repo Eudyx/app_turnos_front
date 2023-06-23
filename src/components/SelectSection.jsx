@@ -1,14 +1,18 @@
-import { Link } from "react-router-dom";
+import { faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BtnMenu from "../subcomponents/BtnMenu";
 
-const SelectSection = () => {
+const SelectSection = ({ navigate }) => {
   return (
-    <section>
-      <div>
-        <Link to='/shiftTable'>Client</Link>
-      </div>
-      <div>
-        <Link to='/shiftForm'>Admin</Link>
-      </div>
+    <section className="menu-container">
+      <BtnMenu cls='btn-menu-icon' link='/clients' navigate={navigate} >
+        <FontAwesomeIcon className="btn-icon" icon={faUsers} />
+        <p>Clientes</p>
+      </BtnMenu>
+      <BtnMenu cls='btn-menu-icon' link='/admin' navigate={navigate} >
+        <FontAwesomeIcon className="btn-icon" icon={faUser} />
+        <p>Admin</p>
+      </BtnMenu>
     </section>
   )
 }

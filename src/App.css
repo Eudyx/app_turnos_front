@@ -1,10 +1,13 @@
 #root {
-  max-width: 1280px;
   width: 100%;
   height: 100vh;
 }
 
-table {
+main {
+  height: 100vh;
+}
+
+/* table {
   border-collapse: collapse;
   width: 100%;
 }
@@ -12,4 +15,4 @@ th, td {
   border: 1px solid black;
   padding: 8px;
   text-align: left;
-}
+} */
