@@ -13,7 +13,7 @@ import TicketListController from './components/TicketListController';
 import LayOut from './layout/LayOut';
 import RequireAuth from './components/RequireAuth';
 
-const socket = io("http://localhost:3000/");
+const socket = io('https://app-de-turnos.onrender.com/');
 
 function App() {
 
