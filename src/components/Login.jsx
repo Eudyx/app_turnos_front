@@ -5,12 +5,12 @@ import useUser from '../hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import { useLogged } from '../hooks/useLogged';
 
-const Login = ({ inputText }) => {
+const Login = () => {
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const { auth, setAuth } = useUser();
+    const { setAuth } = useUser();
     const navigate = useNavigate();
     const userLogged = useLogged();
 
@@ -21,14 +21,13 @@ const Login = ({ inputText }) => {
                 password: pwd
             });
 
-            console.log(result);
             let data = {
                 areaName: result.data.user.areaName,
                 connected: true,
                 user: result.data.user.user,
                 id: result.data.user._id
             }
-
+            
             setAuth(data); // setting the user data to the context
             window.localStorage.setItem('user', JSON.stringify(data)); //setting the user data to the local storage
 

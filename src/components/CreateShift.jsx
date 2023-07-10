@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Ticket from '../subcomponents/Ticket';
 import { useShift } from '../hooks/useShift';
 import BtnAction from '../subcomponents/BtnAction';
+import { useLastNumber } from '../hooks/useLastNumber';
+import { useSocketsEvents } from '../socketHooks/useSocketsEvents';
 
 const CreateShift = ({ socket }) => {
 
-    const [shift, setShift, getShifts] = useShift();
-    const [counter, setCounter] = useState(0);
+    const { shift, getShifts } = useShift();
+    const { counter, getLastNumber, setTheCounter } = useLastNumber(0);
+    const { emitInfo } = useSocketsEvents(socket);
     const [ticketInfo, setTicketInfo] = useState('');
     const [ticketCreate, setTicketCreate] = useState(false);// to know when the ticket was created
 
@@ -26,26 +29,19 @@ const CreateShift = ({ socket }) => {
         }, 4000)
     }
 
-    // gets the number the last ticket
-    const getLastNumber = () => {
-        let data = shift.map(res => res.number);
-        data?.length && setCounter(data[data.length - 1]);
-    }
 
-    const createTicket = async (areaCode, area) => {
+    const createTicket = (areaCode, area) => {
         setTicketInfo(`${areaCode}-${counter + 1}`); // saving in a state the next ticket number
-        socket.emit('message', JSON.stringify({ 
-            shift: `${areaCode}-${counter + 1}`,
-            area: area
-        })); // sending the info to the socket
-        setCounter(prev => prev + 1);// increments the counter
+        emitInfo(area, areaCode, counter);
+        setTheCounter(counter + 1);// increments the counter
     }
 
+    // Effects
     useEffect(() => {
         getShifts(100);
 
         socket.on('delete-all-shifts', () => {
-            setCounter(0);
+            setTheCounter(0);
         })
 
         return () => {
@@ -54,8 +50,7 @@ const CreateShift = ({ socket }) => {
     }, []);
 
     useEffect(() => {
-        getLastNumber();
-        console.log(counter)
+        getLastNumber(shift);
     }, [shift]);
 
   return (

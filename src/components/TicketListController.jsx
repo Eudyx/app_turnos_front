@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Unauthorize from './Unauthorize';
 import { useLogged } from '../hooks/useLogged';
 import useUser from '../hooks/useUser';
 import { useShift } from '../hooks/useShift';
 import LogOut from "../subcomponents/LogOut"
+import { useShiftByArea } from '../hooks/useShiftByArea';
 
 const TicketListController = ({ socket }) => {
   
@@ -12,18 +13,8 @@ const TicketListController = ({ socket }) => {
 
   const userLogged = useLogged();
   const { auth } = useUser();
-  const [shift, setShift, getShifts] = useShift();
-  const [filteredShifts, setFilteredShits] = useState();
-
-  // filter
-  const getShiftByArea = () => {
-      let userArea = window.localStorage.getItem('user');
-      userArea !== null ?
-        userArea = JSON.parse(window.localStorage.getItem('user')).areaName
-          : userArea = '';
-
-      setFilteredShits(shift.filter(res =>  res.area.toLowerCase().includes(userArea.toLowerCase())));
-  }
+  const { shift, getMessage, getShifts } = useShift();
+  const [filteredShifts, getShiftByArea] = useShiftByArea();
 
   const handleDelete = (shift) => {
     socket.emit('delete', shift);
@@ -44,23 +35,23 @@ const TicketListController = ({ socket }) => {
 
   useEffect(() => {
     socket.on('message', message => {
-        console.log(message);
-        setShift(message);
+        getMessage(message);
     });
-
+    
+    
     return () => {
-        socket.off('message');
+      socket.off('message');
     }
   }, []);
-
+  
   useEffect(() => {
-    getShiftByArea();
+    getShiftByArea(shift);
   }, [shift])
 
   useEffect(() => {
     if(dispatchRef.current !== undefined){
-      if(!filteredShifts?.length) {
-          dispatchRef.current.disabled = true;
+        if(!filteredShifts?.length) {
+              dispatchRef.current.disabled = true;
           callRef.current.disabled = true;
       } else {
         dispatchRef.current.disabled = false;

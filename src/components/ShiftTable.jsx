@@ -5,7 +5,7 @@ import Call from "../subcomponents/Call";
 
 const ShiftTable = ({ socket }) => {
 
-    const [shift, setShift, getShifts] = useShift();
+    const { shift, getMessage, getShifts } = useShift();
     const [shiftMod, setShiftMod] = useState([]);
     const [process, setProcess] = useState();
     
@@ -25,7 +25,7 @@ const ShiftTable = ({ socket }) => {
     
     useEffect(() => {
         socket.on('message', message => { // getting turns
-          setShift(message);
+          getMessage(message);
         });
 
         socket.on('process', pro => { // getting turns in process

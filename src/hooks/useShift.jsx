@@ -8,5 +8,10 @@ export const useShift = () => {
       const result = await axios.get(`/shifts/?limit=${limit}`);
       setShift(result.data);
     }
-    return [shift, setShift, getShifts];
+
+    const getMessage = (data) => {
+      setShift(data);
+    }
+
+    return { shift, getMessage, getShifts };
 }
